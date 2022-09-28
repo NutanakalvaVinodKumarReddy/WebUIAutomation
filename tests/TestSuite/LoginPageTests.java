@@ -4,7 +4,6 @@ import Objects.LoginPage;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,8 +20,8 @@ public class LoginPageTests {
     static WebDriver driver;
     static LoginPage obj;
     static ExtentReports extent;
-    static ExtentReportClass extnObj;
     static ExtentTest tests;
+    static ExtentReportClass eobj;
 
     @BeforeSuite
     public void setUp() {
@@ -32,73 +31,106 @@ public class LoginPageTests {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         obj = new LoginPage(driver);
-        extnObj = new ExtentReportClass(extent);
-        extnObj.extentReport();
+        eobj = new ExtentReportClass(extent);
+        extent = eobj.extentReport();
     }
 
     @Test(priority = 0)
     void invalidLoginTest1() {
-        tests = extnObj.extentTests("FirstTestCase","Invalid test cases");
-        tests.log(Status.INFO,"Enter UN");
+        tests = extent.createTest("FirstTestCase", "Invalid test cases");
+        tests.log(Status.INFO, "Entering UN");
         obj.sendUserName("Admin");
-        tests.log(Status.INFO,"Enter PW");
+        tests.log(Status.INFO, "Entering PW");
         obj.sendPassword("admin");
-        tests.log(Status.INFO,"Click Ok");
+        tests.log(Status.INFO, "Click Ok");
         obj.clickLoginButton();
         String errMessage = obj.getErrorMessage();
-        Assert.assertEquals(errMessage, "Invalid credentialss");
-        if(errMessage.equalsIgnoreCase("Invalid credentialss")){
-        tests.log(Status.PASS,"Actual and Expected matched");
-        }
-        else {
-            tests.log(Status.FAIL,"Actual and Expected are NOT matched");
-            tests.log(Status.FAIL,"Actual: "+errMessage);
-            tests.log(Status.FAIL,"Expected: Invalid credentials");
+        if (errMessage.equalsIgnoreCase("Invalid credentials")) {
+            tests.log(Status.PASS, "Actual and Expected matched");
+        } else {
+            tests.log(Status.FAIL, "Actual and Expected are NOT matched");
+            tests.log(Status.FAIL, "Actual: " + errMessage);
+            tests.log(Status.FAIL, "Expected: Invalid credentials");
         }
     }
 
     @Test(priority = 1)
     void invalidLoginTest2() {
-        tests = extnObj.extentTests("SecondTestCase","Invalid test cases");
-        tests.log(Status.INFO,"Enter UN");
-
-        obj.sendUserName("Admin");
-        obj.sendPassword("");
+        tests = extent.createTest("SecondTestCase", "Invalid test cases");
+        tests.log(Status.INFO, "Entering UN");
+        obj.sendUserName("");
+        tests.log(Status.INFO, "Entering PW");
+        obj.sendPassword("admin");
+        tests.log(Status.INFO, "Click Ok");
         obj.clickLoginButton();
         String errMessage = obj.getErrorMessage();
-        Assert.assertEquals(errMessage, "Invalid credentials");
+        if (errMessage.equalsIgnoreCase("Invalid credentialss")) {
+            tests.log(Status.PASS, "Actual and Expected matched");
+        } else {
+            tests.log(Status.FAIL, "Actual and Expected are NOT matched");
+            tests.log(Status.FAIL, "Actual: " + errMessage);
+            tests.log(Status.FAIL, "Expected: Invalid credentials");
+        }
     }
 
     @Test(priority = 2)
     void invalidLoginTest3() {
-        obj.sendUserName("");
-        obj.sendPassword("admin");
+        tests = extent.createTest("ThirdTestCase", "Invalid test cases");
+        tests.log(Status.INFO, "Entering UN");
+        obj.sendUserName("Admin");
+        tests.log(Status.INFO, "Entering PW");
+        obj.sendPassword("");
+        tests.log(Status.INFO, "Click Ok");
         obj.clickLoginButton();
         String errMessage = obj.getErrorMessage();
-        Assert.assertEquals(errMessage, "Invalid credentials");
+        if (errMessage.equalsIgnoreCase("Invalid credentialss")) {
+            tests.log(Status.PASS, "Actual and Expected matched");
+        } else {
+            tests.log(Status.FAIL, "Actual and Expected are NOT matched");
+            tests.log(Status.FAIL, "Actual: " + errMessage);
+            tests.log(Status.FAIL, "Expected: Invalid credentials");
+        }
     }
 
     @Test(priority = 3)
     void invalidLoginTest4() {
+        tests = extent.createTest("FourthTestCase", "Invalid test cases");
+        tests.log(Status.INFO, "Entering UN");
         obj.sendUserName("");
-        obj.sendPassword("admin");
+        tests.log(Status.INFO, "Entering PW");
+        obj.sendPassword("");
+        tests.log(Status.INFO, "Click Ok");
         obj.clickLoginButton();
         String errMessage = obj.getErrorMessage();
-        Assert.assertEquals(errMessage, "Invalid credentials");
+//        Assert.assertEquals(errMessage, "Invalid credentials");
+        if (errMessage.equalsIgnoreCase("Invalid credentials")) {
+            tests.log(Status.PASS, "Actual and Expected matched");
+        } else {
+            tests.log(Status.FAIL, "Actual and Expected are NOT matched");
+            tests.log(Status.FAIL, "Actual: " + errMessage);
+            tests.log(Status.FAIL, "Expected: Invalid credentials");
+        }
     }
 
     @Test(priority = 4)
     void invalidLoginTest() {
+        tests = extent.createTest("FifithTestCase", "Valid test cases");
+        tests.log(Status.INFO, "Entering UN");
         obj.sendUserName("Admin");
+        tests.log(Status.INFO, "Entering PW");
         obj.sendPassword("admin123");
+        tests.log(Status.INFO, "Click Ok");
         obj.clickLoginButton();
         String loginUser = driver.findElement(By.xpath("//a[contains(text(),'Reports')]")).getText();
-
         if (loginUser.equalsIgnoreCase("Reports")) {
             Assert.assertEquals(loginUser, "Reports");
+            tests.log(Status.PASS, "Actual and Expected matched");
         } else {
             String errMessage = obj.getErrorMessage();
             Assert.assertEquals(errMessage, "Invalid credentials");
+            tests.log(Status.FAIL, "Actual and Expected are NOT matched");
+            tests.log(Status.FAIL, "Actual: " + errMessage);
+            tests.log(Status.FAIL, "Expected: Invalid credentials");
         }
     }
 
