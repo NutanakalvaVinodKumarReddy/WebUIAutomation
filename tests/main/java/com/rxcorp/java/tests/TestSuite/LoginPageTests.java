@@ -1,6 +1,8 @@
-package TestSuite;
+package com.rxcorp.java.tests.TestSuite;
 
-import Objects.LoginPage;
+
+import com.rxcorp.java.tests.Objects.*;
+import utils.*;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -12,7 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import utils.ExtentReportClass;
+
 
 import java.util.concurrent.TimeUnit;
 

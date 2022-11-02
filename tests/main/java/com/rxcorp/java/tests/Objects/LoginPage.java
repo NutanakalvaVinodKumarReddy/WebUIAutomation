@@ -1,7 +1,9 @@
-package Objects;
+package com.rxcorp.java.tests.Objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import java.util.concurrent.TimeUnit;
 
 public class LoginPage {
     WebDriver driver;
@@ -24,6 +26,7 @@ public class LoginPage {
     }
 
     public void clickLoginButton() {
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES);
         driver.findElement(loginButton).click();
     }
 
